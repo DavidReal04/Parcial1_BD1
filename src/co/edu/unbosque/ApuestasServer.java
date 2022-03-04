@@ -15,7 +15,7 @@ public class ApuestasServer {
             System.out.println("Servidor de apuestas escuchando en el puerto: "+ PORT);
             System.out.println("\n");
 
-            var nThreads = Executors.newFixedThreadPool(1);
+            var nThreads = Executors.newFixedThreadPool(2);
 
             while (true) {
                 nThreads.execute(new MotorApuestas(listener.accept()));

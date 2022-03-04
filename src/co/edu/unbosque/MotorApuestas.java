@@ -8,9 +8,11 @@ import java.util.Scanner;
 public class MotorApuestas implements Runnable {
 
     private Socket socket;
+    private ManejoArchivo manejoArchivo;
 
     public MotorApuestas(Socket socket) {
         this.socket = socket;
+        manejoArchivo = new ManejoArchivo();
     }
 
     @Override
@@ -28,8 +30,9 @@ public class MotorApuestas implements Runnable {
                 
                 //Ejemplo de operación
                 if(id.equals("001")) {
-                	out.println("Ingreso completado");
-                	safePrintln("Ingresó el usuario: " + id);
+                    String encuentros = "Lista de encuentros\n"+manejoArchivo.leerEncuentros("Encuentros.csv");
+                	out.println("Ingreso completado\n"+encuentros);
+                    safePrintln("Ingresó el usuario: " + id);
                 }
                 
             }

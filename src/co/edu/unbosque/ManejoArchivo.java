@@ -19,8 +19,7 @@ public class ManejoArchivo {
 
 	
 	public ManejoArchivo() {
-		encuentros=new ArrayList<>();
-		System.out.println(leerEncuentros("Libro1.txt"));
+		encuentros = new ArrayList<>();
 	}
 	
 	public  String leerEncuentros(String archivo) {
