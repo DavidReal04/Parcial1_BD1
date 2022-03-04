@@ -5,11 +5,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Modelo implements Runnable {
+public class MotorApuestas implements Runnable {
 
     private Socket socket;
 
-    public Modelo(Socket socket) {
+    public MotorApuestas(Socket socket) {
         this.socket = socket;
     }
 
@@ -41,7 +41,7 @@ public class Modelo implements Runnable {
             } catch (IOException e) {}
             safePrintln("Se cerró el Socket: " + socket);
         }
-    }   
+    }
 
     public void safePrintln(String s) {
         synchronized (System.out) {

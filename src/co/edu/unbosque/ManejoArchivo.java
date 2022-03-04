@@ -11,15 +11,14 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 
-
-public class Server {
+public class ManejoArchivo {
 	
 	private  ArrayList<Encuentros> encuentros;
 	private  CSVReader csvReader;
 	private  FileReader csvFile;
 
 	
-	public Server() {
+	public ManejoArchivo() {
 		encuentros=new ArrayList<>();
 		System.out.println(leerEncuentros("Libro1.txt"));
 	}
