@@ -23,23 +23,23 @@ public class Modelo implements Runnable {
             var out = new PrintWriter(socket.getOutputStream(), true);
 
             while (in.hasNextLine()) {
-                var mensaje = in.nextLine();
-                safePrintln("Prueba recibida: " + mensaje);
+                var id = in.nextLine();
+                safePrintln("ID recibido: " + id);
                 
                 //Ejemplo de operación
-                var mensajePrueba = mensaje.toUpperCase();
-                out.println(mensajePrueba);
-                safePrintln("Mensaje de prueba: " + mensajePrueba);
+                if(id.equals("001")) {
+                	out.println("Ingreso completado");
+                	safePrintln("Ingresó el usuario: " + id);
+                }
+                
             }
         } catch (Exception e) {
             safePrintln("Error:" + socket);
-            safePrintln("");
         } finally {
             try {
                 socket.close();
             } catch (IOException e) {}
             safePrintln("Se cerró el Socket: " + socket);
-            safePrintln("");
         }
     }   
 

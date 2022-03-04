@@ -13,18 +13,15 @@ public class ApuestasCliente {
     public static void main(String[] args) throws Exception {
         
         try (var socket = new Socket(IP, PORT)) {
-            System.out.println("Se ha conectado al servidor de apuestas " + socket+"\n");
-
             var in = new Scanner(socket.getInputStream());
             var out = new PrintWriter(socket.getOutputStream(), true);
-
-            System.out.println("Ingrese el mensaje de prueba:");
+            System.out.println("Bienvenido\nSe ha conectado al servidor de apuestas\n");
+            System.out.println("Ingrese su número de ID:");
             
             while (leer.hasNextLine()) {
                 // Enviar al servidor
                 out.println(leer.nextLine());
-                System.out.println("Mensaje retornado: " + in.nextLine()+"\n");
-                System.out.println("Ingrese el mensaje de prueba:");
+                System.out.println(in.nextLine());
             }
         }
     }
