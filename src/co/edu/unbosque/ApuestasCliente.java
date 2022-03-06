@@ -17,11 +17,11 @@ public class ApuestasCliente {
             var out = new PrintWriter(socket.getOutputStream(), true);
             System.out.println("Bienvenido\nSe ha conectado al servidor de apuestas\n");
             System.out.println("Ingrese su número de ID:");
-            while (leer.hasNextLine()) {
+            while (true) {
                 // Enviar al servidor
                 out.println(leer.nextLine());
                 //Recibir respuesta
-                while (in.hasNextLine()){
+                while (true){
                     System.out.println(in.nextLine());
                 }
             }

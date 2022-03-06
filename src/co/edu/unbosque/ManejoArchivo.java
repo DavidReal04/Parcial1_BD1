@@ -27,6 +27,8 @@ public class ManejoArchivo {
 	
 	public ManejoArchivo() {
 		encuentros = new ArrayList<>();
+		clientes = new ArrayList<>();
+		apuestas = new ArrayList<>();
 	}
 	
 	public  String leerEncuentros(String archivo) {
@@ -58,7 +60,7 @@ public class ManejoArchivo {
 		}
 		
 		for(int i=0;i<encuentros.size();i++) {
-			resul+=encuentros.get(i).getConsecutivo()+"  "+encuentros.get(i).getEquipoLocal()+" "+encuentros.get(i).getEquipoVisitante()+" "+encuentros.get(i).getFecha()+" "+encuentros.get(i).getDeporte()+"\n";
+			resul+=encuentros.get(i).getConsecutivo()+"          "+encuentros.get(i).getEquipoLocal()+"        "+encuentros.get(i).getEquipoVisitante()+"        "+encuentros.get(i).getFecha()+"     "+encuentros.get(i).getDeporte()+"\n";
 		}
 		return resul;
 		
@@ -152,21 +154,19 @@ public class ManejoArchivo {
 			if(id==clientes.get(i).getId()){
 				posicionC=i;
 				respuesta=true;
-			}else{
-				respuesta=false;
 			}
 		}
 		return respuesta;
 	}
 
 	public boolean encontrarEncuentro(int id){
+		System.out.println("encuentro # "+id);
 		boolean respuesta=false;
 		for(int i =0;i<encuentros.size();i++){
 			if(id==encuentros.get(i).getConsecutivo()){
+				System.out.println("lo encontre");
 				posicionE=i;
 				respuesta=true;
-			}else{
-				respuesta=false;
 			}
 		}
 		return respuesta;
