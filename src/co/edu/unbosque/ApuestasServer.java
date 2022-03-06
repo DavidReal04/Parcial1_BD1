@@ -3,15 +3,13 @@ package co.edu.unbosque;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ApuestasServer {
 
     static int PORT = 59897;
     private static MotorApuestas motor;
-    private static Scanner leer=new Scanner(System.in);
+
     public static void main(String[] args) throws Exception {
-        Socket serv = null;
         try (var listener = new ServerSocket(PORT)) {
             System.out.println("Servidor de apuestas escuchando en el puerto: "+ PORT);
             System.out.println("\n");

@@ -3,4 +3,4 @@
 98762;Silvio Brito;45300
 89765;Rafael Molina;77630
 48172;Rafael Orozco;1500000
-11554;Diomez Dias;40000000
+11554;Diomedes Diaz;39994000

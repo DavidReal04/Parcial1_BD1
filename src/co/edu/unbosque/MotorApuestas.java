@@ -23,14 +23,12 @@ public class MotorApuestas implements Runnable {
 		try {
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (IOException e) {
 		}
         
         try {
             boolean flag=false;
-            while(flag==false) {
+            while(!flag) {
                 out.writeUTF("Ingrese su numero de ID:");
                 String id = in.readUTF();
                 safePrintln("ID recibido: " + id);
@@ -73,12 +71,12 @@ public class MotorApuestas implements Runnable {
                                     out.writeUTF("Error");
                                     out.writeUTF("Lo sentimos su el valor de su apuesta es mayor que su saldo\nSus saldo es de "+manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo());
                                 }
-                            }while(flagValor==false);
+                            }while(!flagValor);
                         }else {
                             out.writeUTF("Error");
                             out.writeUTF("Por favor ingrese un id del encuentro valido");
                         }
-                    }while(falgEncuentro==false);
+                    }while(!falgEncuentro);
 
                 }else  {
                     out.writeUTF("Error");
@@ -89,10 +87,8 @@ public class MotorApuestas implements Runnable {
         	try {
 				out.writeUTF("Fin");
 				out.writeUTF("Ingrese numeros por favor");
-                out.writeUTF("Reinicie e intente nuevamente");
 			} catch (IOException e1) {
 			}
-        	
         	
         } catch (Exception e) {
             safePrintln("Error:" + socket);

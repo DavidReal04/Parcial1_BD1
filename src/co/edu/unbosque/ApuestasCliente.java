@@ -33,7 +33,6 @@ public class ApuestasCliente {
                     out.writeUTF(leer.nextLine());
                 }
             }
-
         }catch (IOException e){
         	e.printStackTrace();
         }
