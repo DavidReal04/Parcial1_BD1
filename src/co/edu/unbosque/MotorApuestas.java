@@ -1,11 +1,7 @@
 package co.edu.unbosque;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class MotorApuestas implements Runnable {
 
@@ -20,75 +16,71 @@ public class MotorApuestas implements Runnable {
 
     @Override
     public void run() {
-
         safePrintln("Conectado al cliente: " + socket + "\n");
-
         try {
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            var out = new PrintWriter(socket.getOutputStream(), true);
-
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             boolean flag=false;
-                while(flag==false) {
-                    String id = in.readLine();
-                    safePrintln("ID recibido: " + id);
-                     int idC = Integer.parseInt(id);
-                    if(manejoArchivo.encontrarCliente(idC)) {
-                        
-                        String encuentros = "Lista de encuentros\n"+"Id Encuentro  Equipo Local    Equipo Visitante    Fecha       Deporte\n"+manejoArchivo.leerEncuentros("Encuentros.csv");
-                        out.println("Ingreso completado\n"+encuentros);
-                        safePrintln("Ingres� el usuario: " + id);
-                        boolean falgEncuentro=false;
-                        do{
-                            out.println("ingrese el Id del encuentro por el que desea apostar");
-                            System.out.println("hasta aca");
-                            String consecutivo = in.readLine();
-                            System.out.println("consecutivo= "+consecutivo);
-                            safePrintln("Consecutivo: " + consecutivo);
-                            int idEn=Integer.parseInt(consecutivo) ;
-                            if(manejoArchivo.encontrarEncuentro(idEn)){
-                                
-                                boolean flagValor=false;
-                                do{
-                                    out.println("ingrese el valor que desea apostar");
-                                    var valor = in.readLine();
-                                    safePrintln("Consecutivo: " + consecutivo);
-                                    int valorapuesta=Integer.parseInt(valor);
-                                    if(valorapuesta<manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo()){
-                                    	falgEncuentro=true;
-                                    	flag=true;
-                                        flagValor=true;
-                                        manejoArchivo.getApuestas().add(new Apuestas(manejoArchivo.getApuestas().size()+1,idEn,valorapuesta,idC));
-                                        manejoArchivo.escribirApuestas("Apuestas.csv");
-                                        out.println("Resumen de la transaccion");
-                                        out.println(manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getNombre());
-                                        out.println("Saldo inicial: "+manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo());
-                                        out.println("Valor apostado: "+valor);
-                                        out.println("Encuentro : \nDeporte :"+manejoArchivo.getEncuentros().get(manejoArchivo.getPosicionE()).getDeporte()+"\nEquipo local: "+manejoArchivo.getEncuentros().get(manejoArchivo.getPosicionE()).getEquipoLocal()+" vs "+manejoArchivo.getEncuentros().get(manejoArchivo.getPosicionE()).getEquipoVisitante());
-                                        out.println("Nuevo Saldo : "+(manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo()-valorapuesta));
-                                    }else{
-                                        out.println("Lo sentimos su el valor de su apuesta es mayor que su saldo\nSus saldo es de "+manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo());
-                                    }
-                                }while(flagValor==false);
-                            }else {
-                                out.println("Por favor ingrese un id del encuentro valido");
-                            }
-                        }while(falgEncuentro==false);
+            while(flag==false) {
+                out.writeUTF("Ingrese su numero de ID:");
+                String id = in.readUTF();
+                safePrintln("ID recibido: " + id);
+                int idC = Integer.parseInt(id);
+                if(manejoArchivo.encontrarCliente(idC)) {
+                    safePrintln("Ingreso del usuario: " + id);
+                    String encuentros = "Lista de encuentros\n"+"Id     Encuentro       Equipo Local    Equipo Visitante        Fecha           Deporte\n"+manejoArchivo.leerEncuentros("Encuentros.csv");
+                    encuentros = "Ingreso completado\n"+encuentros;
+                    encuentros =encuentros+"\nIngrese el Id del encuentro por el que desea apostar";
+                    boolean falgEncuentro=false;
+                    do{
+                        out.writeUTF(encuentros);
+                        String consecutivo = in.readUTF();
+                        safePrintln("Consecutivo: " + consecutivo);
+                        int idEn=Integer.parseInt(consecutivo) ;
+                        if(manejoArchivo.encontrarEncuentro(idEn)){
+                            boolean flagValor=false;
+                            do{
+                                out.writeUTF("Ingrese el valor que desea apostar");
+                                var valor = in.readUTF();
+                                safePrintln("Valor apuesta: " + valor);
+                                int valorapuesta=Integer.parseInt(valor);
+                                if(valorapuesta<manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo()){
+                                    falgEncuentro=true;
+                                    flag=true;
+                                    flagValor=true;
+                                    manejoArchivo.getApuestas().add(new Apuestas(manejoArchivo.getApuestas().size()+1,idEn,valorapuesta,idC));
+                                    manejoArchivo.escribirApuestas("Apuestas.csv");
+                                    String resumen = "Resumen de la transaccion\n"+manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getNombre();
+                                    resumen=resumen+("\nSaldo inicial: "+manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo());
+                                    resumen=resumen+("\nValor apostado: "+valor);
+                                    resumen=resumen+("\nEncuentro : \nDeporte :"+manejoArchivo.getEncuentros().get(manejoArchivo.getPosicionE()).getDeporte()+"\nEquipo local: "+manejoArchivo.getEncuentros().get(manejoArchivo.getPosicionE()).getEquipoLocal()+" vs "+manejoArchivo.getEncuentros().get(manejoArchivo.getPosicionE()).getEquipoVisitante());
+                                    resumen=resumen+("\nNuevo Saldo : "+(manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo()-valorapuesta));
+                                    out.writeUTF("Fin");
+                                    out.writeUTF(resumen);
+                                    out.writeUTF("Gracias por su apuesta. Hasta Pronto");
+                                }else{
+                                    out.writeUTF("Error");
+                                    out.writeUTF("Lo sentimos su el valor de su apuesta es mayor que su saldo\nSus saldo es de "+manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo());
+                                }
+                            }while(flagValor==false);
+                        }else {
+                            out.writeUTF("Error");
+                            out.writeUTF("Por favor ingrese un id del encuentro valido");
+                        }
+                    }while(falgEncuentro==false);
 
-                        
-                    }else  {
-                        out.println("Cliente no encontrado por favor intente nuevamente");
-                    }
+                }else  {
+                    out.writeUTF("Error");
+                    out.writeUTF("Cliente no encontrado por favor intente nuevamente");
                 }
-                
-                
-            
+            }
         } catch (Exception e) {
             safePrintln("Error:" + socket);
         } finally {
             try {
                 socket.close();
             } catch (IOException e) {}
-            safePrintln("Se cerr� el Socket: " + socket);
+            safePrintln("Se cerro el Socket: " + socket);
         }
     }
 

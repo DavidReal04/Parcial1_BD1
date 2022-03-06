@@ -41,9 +41,7 @@ public class ManejoArchivo {
 			csvReader.readNext();
 			while ((fila = csvReader.readNext()) != null) {
 				try {
-					
 					encuentros.add(new Encuentros(Integer.parseInt(fila[0]), fila[1], fila[2], fila[3],fila[4]));
-
 				} catch (EmptyStackException e) {
 					
 				} catch (NumberFormatException e) {
@@ -67,7 +65,6 @@ public class ManejoArchivo {
 	}
 
 	public void  leerMaeclientes(String archivo) {
-
 		try {
 			csvFile = new FileReader(archivo);
 			CSVParser conPuntoYComa = new CSVParserBuilder().withSeparator(';').build();
@@ -76,13 +73,9 @@ public class ManejoArchivo {
 			csvReader.readNext();
 			while ((fila = csvReader.readNext()) != null) {
 				try {
-					
 					clientes.add(new Clientes(Integer.parseInt(fila[0]), fila[1], Integer.parseInt(fila[2])));
-
 				} catch (EmptyStackException e) {
-					
 				} catch (NumberFormatException e) {
-					
 				}
 			}
 			csvFile.close();
@@ -150,23 +143,27 @@ public class ManejoArchivo {
 
 	public boolean encontrarCliente(int id){
 		boolean respuesta=false;
-		for(int i =0;i<clientes.size();i++){
+		for(int i=0;i<clientes.size();i++){
 			if(id==clientes.get(i).getId()){
-				posicionC=i;
 				respuesta=true;
+				posicionC=i;
+				i=clientes.size();
+			}else{
+				respuesta=false;
 			}
 		}
 		return respuesta;
 	}
 
 	public boolean encontrarEncuentro(int id){
-		System.out.println("encuentro # "+id);
 		boolean respuesta=false;
 		for(int i =0;i<encuentros.size();i++){
 			if(id==encuentros.get(i).getConsecutivo()){
-				System.out.println("lo encontre");
-				posicionE=i;
 				respuesta=true;
+				posicionE=i;
+				i=encuentros.size();
+			}else{
+				respuesta=false;
 			}
 		}
 		return respuesta;

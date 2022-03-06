@@ -1,6 +1,6 @@
 package co.edu.unbosque;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -12,19 +12,29 @@ public class ApuestasCliente {
     
     public static void main(String[] args) throws Exception {
         
-        try (var socket = new Socket(IP, PORT)) {
-            var in = new Scanner(socket.getInputStream());
-            var out = new PrintWriter(socket.getOutputStream(), true);
-            System.out.println("Bienvenido\nSe ha conectado al servidor de apuestas\n");
-            System.out.println("Ingrese su número de ID:");
-            while (true) {
-                // Enviar al servidor
-                out.println(leer.nextLine());
-                //Recibir respuesta
-                while (true){
-                    System.out.println(in.nextLine());
+        try {
+            Socket socket = new Socket(IP, PORT);
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            System.out.println(in.readUTF());
+            boolean flag=true;
+            while (flag){
+                String msg = in.readUTF();
+                if(msg.equals("Error")){
+                    System.out.println(in.readUTF());
+                    System.out.println(in.readUTF());
+                    out.writeUTF(leer.nextLine());
+                }else if (msg.equals("Fin")){
+                    System.out.println(in.readUTF());
+                    flag = false;
+                }else{
+                    System.out.println(msg);
+                    out.writeUTF(leer.nextLine());
                 }
             }
+            System.out.println(in.readUTF());
+        }catch (IOException e){
+
         }
     }
 }
