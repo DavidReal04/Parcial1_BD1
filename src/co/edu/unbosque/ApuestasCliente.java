@@ -26,13 +26,14 @@ public class ApuestasCliente {
                     out.writeUTF(leer.nextLine());
                 }else if (msg.equals("Fin")){
                     System.out.println(in.readUTF());
+                    System.out.println(in.readUTF());
                     flag = false;
                 }else{
                     System.out.println(msg);
                     out.writeUTF(leer.nextLine());
                 }
             }
-            System.out.println(in.readUTF());
+
         }catch (IOException e){
         	e.printStackTrace();
         }

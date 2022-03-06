@@ -87,11 +87,10 @@ public class MotorApuestas implements Runnable {
             }
         }catch(NumberFormatException e){
         	try {
-				out.writeUTF("Error");
-				out.writeUTF("Ingrese numeros por favor\nreinicie e intente nuevamente");
+				out.writeUTF("Fin");
+				out.writeUTF("Ingrese numeros por favor");
+                out.writeUTF("Reinicie e intente nuevamente");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
         	
         	
