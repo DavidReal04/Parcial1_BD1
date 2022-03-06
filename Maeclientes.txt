@@ -1,0 +1,6 @@
+22381;Carlos Valderrama;23000
+38273;Renato Capriles;31500
+98762;Silvio Brito;45300
+89765;Rafael Molina;77630
+48172;Rafael Orozco;1500000
+11554;Diomez Dias;40000000

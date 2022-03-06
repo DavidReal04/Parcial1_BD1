@@ -22,6 +22,7 @@ public class ManejoArchivo {
 	private  CSVReader csvReader;
 	private  FileReader csvFile;
 	private int posicionC;
+	private int saldoC;
 	private int posicionE;
 
 	
@@ -70,7 +71,7 @@ public class ManejoArchivo {
 			CSVParser conPuntoYComa = new CSVParserBuilder().withSeparator(';').build();
 			csvReader = new CSVReaderBuilder(csvFile).withCSVParser(conPuntoYComa).build();
 			String[] fila = null;
-			csvReader.readNext();
+			
 			while ((fila = csvReader.readNext()) != null) {
 				try {
 					clientes.add(new Clientes(Integer.parseInt(fila[0]), fila[1], Integer.parseInt(fila[2])));
@@ -88,6 +89,28 @@ public class ManejoArchivo {
 		}
 		
 	}
+	
+	public String escribirClientes(String archivo) {
+		File f = new File(archivo);
+		try {
+			FileWriter fw = new FileWriter(f);
+			PrintWriter pw = new PrintWriter(fw); 
+			String datosString = "";
+			for(int i = 0;i<clientes.size();i++) {
+				int id = clientes.get(i).getId();
+				String nombre = clientes.get(i).getNombre();
+				int saldo = clientes.get(i).getSaldo();
+				datosString = id+";"+nombre+";"+saldo;
+			
+				pw.println(datosString); 
+			}
+			fw.close();
+		} catch (IOException e) {
+			return "Registro no exitoso";
+		}
+		return "Registro exitoso";
+	}
+
 
 	public void  leerApuestas(String archivo) {
 
@@ -96,7 +119,7 @@ public class ManejoArchivo {
 			CSVParser conPuntoYComa = new CSVParserBuilder().withSeparator(';').build();
 			csvReader = new CSVReaderBuilder(csvFile).withCSVParser(conPuntoYComa).build();
 			String[] fila = null;
-			csvReader.readNext();
+			
 			while ((fila = csvReader.readNext()) != null) {
 				try {
 					
@@ -126,7 +149,7 @@ public class ManejoArchivo {
 			PrintWriter pw = new PrintWriter(fw); 
 			String datosString = "";
 			for(int i = 0;i<apuestas.size();i++) {
-				int consecutivo = apuestas.size();
+				int consecutivo = apuestas.get(i).getConsecutivo();
 				int idEncuentro = apuestas.get(i).getIdEncuentro();
 				int valorApostado = apuestas.get(i).getValorApostado();
 				int idUsuario = apuestas.get(i).getIdUsuario();
@@ -146,6 +169,7 @@ public class ManejoArchivo {
 		for(int i=0;i<clientes.size();i++){
 			if(id==clientes.get(i).getId()){
 				respuesta=true;
+				saldoC=clientes.get(i).getSaldo();
 				posicionC=i;
 				i=clientes.size();
 			}else{
@@ -200,6 +224,14 @@ public class ManejoArchivo {
 
 	public void setEncuentros(ArrayList<Encuentros> encuentros) {
 		this.encuentros = encuentros;
+	}
+
+	public int getSaldoC() {
+		return saldoC;
+	}
+
+	public void setSaldoC(int saldoC) {
+		this.saldoC = saldoC;
 	}
 
 	public ArrayList<Clientes> getClientes() {

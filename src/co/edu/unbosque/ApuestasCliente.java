@@ -34,7 +34,7 @@ public class ApuestasCliente {
             }
             System.out.println(in.readUTF());
         }catch (IOException e){
-
+        	e.printStackTrace();
         }
     }
 }
