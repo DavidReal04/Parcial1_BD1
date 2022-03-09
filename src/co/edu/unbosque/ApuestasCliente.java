@@ -34,7 +34,8 @@ public class ApuestasCliente {
                 }
             }
         }catch (IOException e){
-        	e.printStackTrace();
+        	System.out.println("Entrada invalida");
+           
         }
     }
 }

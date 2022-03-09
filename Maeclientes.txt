@@ -2,5 +2,5 @@
 38273;Renato Capriles;31500
 98762;Silvio Brito;45300
 89765;Rafael Molina;77630
-48172;Rafael Orozco;1500000
+48172;Rafael Orozco;1495008
 11554;Diomedes Diaz;39994000

@@ -51,7 +51,7 @@ public class MotorApuestas implements Runnable {
                                 var valor = in.readUTF();
                                 safePrintln("Valor apuesta: " + valor);
                                 int valorapuesta=Integer.parseInt(valor);
-                                if(valorapuesta<manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo()){
+                                if(valorapuesta<manejoArchivo.getClientes().get(manejoArchivo.getPosicionC()).getSaldo()&&valorapuesta>0){
                                     falgEncuentro=true;
                                     flag=true;
                                     flagValor=true;
